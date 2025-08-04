@@ -1,0 +1,51 @@
+@import "tailwindcss";
+.chat-bubble {
+  background-color: #e6f0fa; /* light blue */
+  color: #0f172a; /* dark text for better contrast */
+  border-radius: 18px;
+  padding: 10px 16px;
+  max-width: 75%;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: 6px 12px;
+  word-wrap: break-word;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  overflow-wrap: break-word;
+}
+
+.chat-bubble-left {
+  align-self: flex-start;
+  background-color: #f1f5f9; /* light grey for received messages */
+}
+
+.chat-bubble-right {
+  align-self: flex-end;
+  background-color: #3b82f6; /* blue for sent messages */
+  color: white;
+}
+
+/* Style images inside the chat bubble */
+.chat-bubble img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-top: 6px;
+  display: block;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .chat-bubble {
+    max-width: 85%;
+    font-size: 1rem;
+    padding: 10px 14px;
+  }
+
+  .chat-bubble img {
+    max-width: 80vw;
+    max-height: 220px;
+  }
+}
+
+
+
