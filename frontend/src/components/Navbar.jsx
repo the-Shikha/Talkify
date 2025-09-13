@@ -62,6 +62,13 @@ const Navbar = () => {
         {user ? (
           <div className="hidden sm:flex items-center gap-10">
             <Link
+              to="/feed"
+              className="relative text-black font-normal text-sm hover:text-sky-600 transition-colors duration-200"
+            >
+              Home
+              <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-sky-600 transition-all duration-300 ease-in-out hover:w-full"></span>
+            </Link>
+            <Link
               to="/profile"
               className="relative text-black font-normal text-sm hover:text-sky-600 transition-colors duration-200"
             >
@@ -146,6 +153,14 @@ const Navbar = () => {
         <div className="sm:hidden bg-white border-t border-sky-600/10 px-4 py-6 flex flex-col gap-4 shadow-[0_4px_10px_rgba(0,0,0,0.08)] animate-slide-in">
           {user ? (
             <>
+            <Link
+                to="/feed"
+                onClick={() => setMenuOpen(false)}
+                className="relative block text-black font-normal text-sm hover:text-sky-600 transition-colors duration-200"
+              >
+                Home
+                <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-sky-600 transition-all duration-300 ease-in-out hover:w-full"></span>
+              </Link>
               <Link
                 to="/profile"
                 onClick={() => setMenuOpen(false)}

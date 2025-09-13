@@ -1,7 +1,9 @@
 @import "tailwindcss";
+
+/* General chat bubble */
 .chat-bubble {
   background-color: #e6f0fa; /* light blue */
-  color: #0f172a; /* dark text for better contrast */
+  color: #0f172a; /* dark text */
   border-radius: 18px;
   padding: 10px 16px;
   max-width: 75%;
@@ -11,20 +13,25 @@
   word-wrap: break-word;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   overflow-wrap: break-word;
+  display: inline-block;
+  position: relative;
 }
 
+/* Left bubble (received message) */
 .chat-bubble-left {
   align-self: flex-start;
-  background-color: #f1f5f9; /* light grey for received messages */
+  background-color: #f1f5f9; /* light grey */
+  color: #0f172a;
 }
 
+/* Right bubble (sent message) */
 .chat-bubble-right {
   align-self: flex-end;
-  background-color: #3b82f6; /* blue for sent messages */
+  background-color: #3b82f6; /* blue */
   color: white;
 }
 
-/* Style images inside the chat bubble */
+/* Images inside chat bubbles */
 .chat-bubble img {
   max-width: 100%;
   height: auto;
@@ -33,7 +40,42 @@
   display: block;
 }
 
-/* Responsive design */
+/* Chat shimmer for loading */
+.chat-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(220, 220, 220, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 18px;
+  width: 60%;
+  height: 16px;
+  margin: 6px 12px;
+}
+
+.chat-shimmer-left {
+  align-self: flex-start;
+  width: 60%;
+}
+
+.chat-shimmer-right {
+  align-self: flex-end;
+  width: 50%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Responsive for mobile */
 @media (max-width: 480px) {
   .chat-bubble {
     max-width: 85%;
@@ -45,7 +87,9 @@
     max-width: 80vw;
     max-height: 220px;
   }
+
+  .chat-shimmer {
+    width: 70%;
+    height: 16px;
+  }
 }
-
-
-
