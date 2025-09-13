@@ -10,8 +10,10 @@ const SignupPage = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
+  const [about, setAbout] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -28,7 +30,7 @@ const SignupPage = () => {
   };
 
   const submitHandler = async () => {
-    const formData = { firstName, lastName, gender, photoUrl, email, password };
+    const formData = { firstName, lastName,age, gender, photoUrl, email, password,about };
     try {
       await axios.post(BASE_URL+"/signup", formData, { withCredentials: true });
       toast.success("Signup successful!");
@@ -70,6 +72,21 @@ const SignupPage = () => {
             />
           </div>
 
+
+          {/* Age */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Age</label>
+            <input
+              type="number"
+              min="18"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm"
+              placeholder='18+'
+            />
+          </div>
+
+
           {/* Gender */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
@@ -109,6 +126,17 @@ const SignupPage = () => {
             />
           </div>
 
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">About</label>
+            <textarea
+              value={about}
+              onChange={(e) => setAbout(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm"
+              placeholder="Tell us something about yourself"
+              rows={4}
+            />
+          </div>
+
           {/* Upload Photo */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Upload Photo</label>
@@ -136,6 +164,8 @@ const SignupPage = () => {
               )}
             </div>
           </div>
+
+
 
           {/* Create Button */}
           <button

@@ -23,12 +23,14 @@ profileRoutes.get("/profile",userAuth,async(req,res)=>{
 profileRoutes.patch("/profile/edit",userAuth,async(req,res)=>{
     try{
         const loggedInUser = req.user;
-        const { firstName, lastName, gender, photoUrl } = req.body;
+        const { firstName, lastName,age, gender, photoUrl,about } = req.body;
 
         const toUpdate = {};
         if (firstName !== undefined) toUpdate.firstName = firstName;
         if (lastName !== undefined) toUpdate.lastName = lastName;
         if (gender !== undefined) toUpdate.gender = gender;
+        if (age !== undefined) toUpdate.age = age;
+        if (about !== undefined) toUpdate.about = about;
         if (photoUrl !== undefined) {
             const result = await cloudinary.uploader.upload(photoUrl);
             toUpdate.photoUrl= result.secure_url;
@@ -76,6 +78,34 @@ profileRoutes.get("/profile/getAllUsers",userAuth,async(req,res)=>{
     }
 })
 
+
+profileRoutes.patch("/profile/changePassword",userAuth,async(req,res)=>{
+    try{
+        const user=req.user;
+        const {prevPassword,newPassword}=req.body;
+        const {password}=user
+
+        if (!prevPassword || !newPassword) {
+            return res.status(400).send("Both previous and new password are required.");
+        }
+
+        // Check if new password is different from previous
+        if (prevPassword === newPassword) {
+            return res.status(400).send("New password must be different from the old password.");
+        }
+        const isPrevPasswordValid=await bcrypt.compare(prevPassword,password)
+        if(!isPrevPasswordValid){
+            res.status(400).send("Old password is not correct")
+        }
+        const hashNewPwd=await bcrypt.hash(newPassword,10);
+        const updateUserPwdDb=await User.findByIdAndUpdate({_id:user._id},{password:hashNewPwd},{new:true})
+        res.send(`Password changed successfully
+                data : ${updateUserPwdDb}` )
+    }
+    catch(err){
+        res.status(400).send("Issue while changing password: "+err.message)
+    }
+})
 
 
 module.exports=profileRoutes

@@ -9,6 +9,10 @@ const tempUserSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    age:{
+        type:Number,
+        min:18
+    },
     gender: {
         type: String,
         enum: ["Male", "Female", "Others"],
@@ -27,6 +31,11 @@ const tempUserSchema=new mongoose.Schema({
         default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWnW0NUpcrZcGZeUJ4e50ZLU8ugS9GPPoqww&s",
         required: true
     },
+    about:{
+        type:String,
+        default:"This is the default about of the user"
+    },
+    
     verificationCode:{
         type:String,
         required: true

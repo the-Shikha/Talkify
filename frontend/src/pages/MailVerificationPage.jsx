@@ -4,16 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../utils/constant';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utils/userSlice';
 
 const MailVerificationPage = () => {
   const [code, setCode] = useState('');
   const navigate = useNavigate();
+  const dispatch=useDispatch()
 
   const signupHandler = async () => {
     try {
       await axios.post(BASE_URL+"/verifyMail", { code }, { withCredentials: true });
+      const userResponse = await axios.get(BASE_URL + "/profile", { withCredentials: true });
+      dispatch(addUser(userResponse.data.data));
       toast.success("Verification successful!");
-      setTimeout(() => navigate("/profile"), 1500);
+      setTimeout(() => navigate("/feed"), 1500);
     } catch (err) {
       console.log(err)
       toast.error("Invalid code. Please try again.");
@@ -34,7 +39,7 @@ const MailVerificationPage = () => {
               value={code}
               onChange={(e) => setCode(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm"
-              placeholder="6-digit code"
+              placeholder="Enter code"
             />
           </div>
 

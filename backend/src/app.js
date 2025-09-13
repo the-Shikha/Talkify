@@ -9,6 +9,8 @@ const messageRoutes = require("./routes/message");
 const http=require("http");
 const initializeSocket = require("./utils/socket");
 const BASE_URL = require("./utils/constant");
+const connectionRequestRouter=require("./routes/requests")
+const userRouter=require("./routes/user");
 
 
 app.use(express.json({ limit: "10mb" }));
@@ -23,6 +25,8 @@ app.use(cookieParser());
 app.use("/",authRoutes)
 app.use("/",profileRoutes)
 app.use("/",messageRoutes)
+app.use("/",connectionRequestRouter)
+app.use("/",userRouter)
 
 const server=http.createServer(app);
 initializeSocket(server)

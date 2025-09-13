@@ -1,23 +1,34 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../utils/constant';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utils/userSlice';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const dispatch=useDispatch()
   const loginHandler = async () => {
     try {
       const formData = { email, password };
       await axios.post(BASE_URL+"/login", formData, { withCredentials: true });
+
+      const userResponse = await axios.get(BASE_URL + "/profile", { withCredentials: true });
+      
+      dispatch(addUser(userResponse.data.data));
+
       toast.success("Login successful!", { autoClose: 2000 });
-      setTimeout(() => navigate("/profile"), 2000); // Wait for toast
+    
+      setTimeout(() => navigate("/feed"), 2000); // Wait for toast
     } catch (error) {
       toast.error("Login failed! Please check your credentials.", { autoClose: 3000 });
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+      }
       console.error("Login failed", error);
     }
   };
@@ -61,9 +72,9 @@ const LoginPage = () => {
 
         <p className="text-center text-sm text-gray-500">
           Don't have an account?{' '}
-          <a href="/signup" className="text-sky-600 hover:underline font-medium">
+          <Link to="/signup" className="text-sky-600 hover:underline font-medium">
             Sign up
-          </a>
+          </Link>
         </p>
       </div>
     </div>

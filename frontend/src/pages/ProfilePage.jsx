@@ -12,6 +12,8 @@ const ProfilePage = () => {
   const [lastName, setLastName] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const [gender, setGender] = useState('');
+  const [age, setAge] = useState('');
+  const [about, setAbout] = useState('');
   const [isZoomed, setIsZoomed] = useState(false);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -37,6 +39,8 @@ const ProfilePage = () => {
       setLastName(userData.lastName || "");
       setPhotoUrl(userData.photoUrl || "");
       setGender(userData.gender || "");
+      setAge(userData.age || '');
+      setAbout(userData.about || '');
     }
   }, [userData]);
 
@@ -125,6 +129,19 @@ const ProfilePage = () => {
             />
           </div>
 
+          {/* Age */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Age</label>
+            <input
+              type="number"
+              min="18"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              placeholder="Age"
+            />
+          </div>
+
           <div>
             <label className="block text-sm font-medium mb-1">Gender</label>
             <select
@@ -146,6 +163,17 @@ const ProfilePage = () => {
               value={userData?.email || ""}
               disabled
               className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">About</label>
+            <textarea
+              value={about}
+              onChange={(e) => setAbout(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              placeholder="Tell us something about yourself"
+              rows={4}
             />
           </div>
 

@@ -7,12 +7,13 @@ const bcrypt=require("bcrypt")
 const { sendVerificationEmail } = require("../utils/mailSender")
 const jwt=require("jsonwebtoken")
 const { cloudinary } = require("../utils/cloudinary")
+const { isAbsolute } = require("path/posix")
 
 
 authRoutes.post("/signup",async(req,res)=>{
     try{
-        let {firstName, lastName, gender,email,password,photoUrl}=req.body
-        if(!firstName||!lastName||!gender||!email||!password){
+        let {firstName, lastName, age, gender,email,password,photoUrl,about}=req.body
+        if(!firstName||!lastName||!age||!gender||!email||!password||!about){
             return res.status(400).json({
                 message:"All fields are required"
             })
@@ -38,7 +39,7 @@ authRoutes.post("/signup",async(req,res)=>{
         }
 
         const tempUser=await TempUser.create({
-            firstName,lastName,gender,email,password:hashedPassword,photoUrl,verificationCode:code,
+            firstName,lastName,age,gender,email,password:hashedPassword,photoUrl,about,verificationCode:code,
             expiresAt: new Date(Date.now() + 10*60*1000)
         })
         await sendVerificationEmail(tempUser.email,tempUser.verificationCode)
@@ -75,10 +76,12 @@ authRoutes.post("/verifymail",async(req,res)=>{
         const newUser = await User.create({
             firstName:tempUser.firstName,
             lastName:tempUser.lastName,
+            age:tempUser.age,
             gender:tempUser.gender,
             email: tempUser.email,
             password: tempUser.password,
-            photoUrl:tempUser.photoUrl
+            photoUrl:tempUser.photoUrl,
+            about:tempUser.about
         });
 
         await TempUser.deleteOne({ _id: tempUser._id });
