@@ -12,5 +12,5 @@ export const createSocketConnection=()=>{
     if(location.hostname==="localhost")
         return io(BASE_URL)
     else
-        return io("http://13.61.195.140",{path:"/api/socket.io"})
+        return io("http://16.171.227.154",{path:"/api/socket.io"})
 }
