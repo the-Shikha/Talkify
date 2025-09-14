@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../utils/constant';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../utils/userSlice';
 
 const LoginPage = () => {
@@ -12,6 +12,13 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch=useDispatch()
+  const user = useSelector((state) => state.user);
+
+  // Agar user data already hai → direct redirect to /feed
+  if (user) {
+    return <Navigate to="/feed" replace />;
+  }
+
   const loginHandler = async () => {
     try {
       const formData = { email, password };

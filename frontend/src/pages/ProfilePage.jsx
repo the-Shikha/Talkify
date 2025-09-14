@@ -67,7 +67,7 @@ const ProfilePage = () => {
         { withCredentials: true }
       );
       toast.success("Profile updated successfully!");
-      setTimeout(() => navigate("/message"), 1500);
+      setTimeout(() => navigate("/feed"), 1500);
     } catch (err) {
       console.log(err)
       toast.error("Update failed");
